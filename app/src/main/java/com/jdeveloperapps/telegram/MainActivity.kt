@@ -1,8 +1,10 @@
 package com.jdeveloperapps.telegram
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.jdeveloperapps.telegram.activities.RegisterActivity
 import com.jdeveloperapps.telegram.databinding.ActivityMainBinding
 import com.jdeveloperapps.telegram.ui.fragments.ChatsFragment
 import com.jdeveloperapps.telegram.ui.objects.AppDrawer
@@ -31,12 +33,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initFunc() {
-        setSupportActionBar(mToolbar)
-        mAppDrawer.create()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.dataContainer,
-                ChatsFragment()
-            ).commit()
+        if (false) {
+            setSupportActionBar(mToolbar)
+            mAppDrawer.create()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.dataContainer,
+                    ChatsFragment()
+                ).commit()
+        } else {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 
