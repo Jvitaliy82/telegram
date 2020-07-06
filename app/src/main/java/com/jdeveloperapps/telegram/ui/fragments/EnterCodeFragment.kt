@@ -5,10 +5,7 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.jdeveloperapps.telegram.MainActivity
 import com.jdeveloperapps.telegram.R
 import com.jdeveloperapps.telegram.activities.RegisterActivity
-import com.jdeveloperapps.telegram.utilites.AUTH
-import com.jdeveloperapps.telegram.utilites.AppTextWatcher
-import com.jdeveloperapps.telegram.utilites.replaceActivity
-import com.jdeveloperapps.telegram.utilites.showToast
+import com.jdeveloperapps.telegram.utilites.*
 import kotlinx.android.synthetic.main.fragment_enter_code.*
 
 class EnterCodeFragment(val phoneNumber: String, val id: String) : Fragment(R.layout.fragment_enter_code) {
@@ -29,8 +26,20 @@ class EnterCodeFragment(val phoneNumber: String, val id: String) : Fragment(R.la
         val credential = PhoneAuthProvider.getCredential(id, code)
         AUTH.signInWithCredential(credential).addOnCompleteListener{
             if (it.isSuccessful) {
-                showToast("Welcome")
-                (activity as RegisterActivity).replaceActivity(MainActivity())
+                val uid = AUTH.currentUser?.uid.toString()
+                val dataMap = mutableMapOf<String, Any>()
+                dataMap[CHILD_ID] = uid
+                dataMap[CHILD_PHONE] = phoneNumber
+                dataMap[CHILD_USERNAME] = uid
+
+                REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dataMap).addOnCompleteListener {
+                    if(it.isSuccessful) {
+                        showToast("Welcome")
+                        (activity as RegisterActivity).replaceActivity(MainActivity())
+                    } else {
+                        showToast(it.exception?.message.toString())
+                    }
+                }
             } else {
                 showToast(it.exception.toString())
             }

@@ -3,12 +3,12 @@ package com.jdeveloperapps.telegram
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.google.firebase.auth.FirebaseAuth
 import com.jdeveloperapps.telegram.activities.RegisterActivity
 import com.jdeveloperapps.telegram.databinding.ActivityMainBinding
 import com.jdeveloperapps.telegram.ui.fragments.ChatsFragment
 import com.jdeveloperapps.telegram.ui.objects.AppDrawer
 import com.jdeveloperapps.telegram.utilites.AUTH
+import com.jdeveloperapps.telegram.utilites.initFirebase
 import com.jdeveloperapps.telegram.utilites.replaceActivity
 import com.jdeveloperapps.telegram.utilites.replaceFragment
 
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private fun initFields() {
         mToolbar = mBinding.mainToolbar
         mAppDrawer = AppDrawer(this, toolbar = mToolbar)
-        AUTH = FirebaseAuth.getInstance()
+        initFirebase()
     }
 
     private fun initFunc() {
