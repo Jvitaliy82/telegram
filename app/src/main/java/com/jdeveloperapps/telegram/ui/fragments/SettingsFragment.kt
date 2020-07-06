@@ -8,6 +8,7 @@ import com.jdeveloperapps.telegram.R
 import com.jdeveloperapps.telegram.activities.RegisterActivity
 import com.jdeveloperapps.telegram.utilites.AUTH
 import com.jdeveloperapps.telegram.utilites.replaceActivity
+import com.jdeveloperapps.telegram.utilites.replaceFragment
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
@@ -26,6 +27,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             R.id.settings_menu_exit -> {
                 AUTH.signOut()
                 (activity as MainActivity).replaceActivity(RegisterActivity())
+            }
+            R.id.settings_menu_change_name -> {
+                replaceFragment(ChangeNameFragment())
             }
         }
         return true
