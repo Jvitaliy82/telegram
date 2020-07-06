@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.jdeveloperapps.telegram.R
-import com.jdeveloperapps.telegram.ui.fragments.EnterCodeFragment
 
 fun Fragment.showToast(message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
@@ -17,17 +16,26 @@ fun AppCompatActivity.replaceActivity(activity: AppCompatActivity) {
     this.finish()
 }
 
-fun AppCompatActivity.replaceFragment(fragment: Fragment) {
-    supportFragmentManager.beginTransaction()
-        .replace(
-            R.id.dataContainer,
-            fragment
-        ).commit()
+fun AppCompatActivity.replaceFragment(fragment: Fragment, addStack: Boolean = true) {
+    if (addStack) {
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(
+                R.id.dataContainer,
+                fragment
+            ).commit()
+    } else {
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.dataContainer,
+                fragment
+            ).commit()
+    }
 }
 
 fun Fragment.replaceFragment(fragment: Fragment) {
     this.fragmentManager?.beginTransaction()
-        ?.replace(R.id.dataContainer, EnterCodeFragment())
+        ?.replace(R.id.dataContainer, fragment)
         ?.addToBackStack(null)
         ?.commit()
 }
