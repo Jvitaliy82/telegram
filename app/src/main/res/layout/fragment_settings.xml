@@ -132,14 +132,14 @@
         <TextView
             android:id="@+id/settings_bio"
             style="@style/normalText"
-            android:text="@string/settings_bio"
+            tools:text="@string/settings_bio"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/settings_label_bio"
             style="@style/smallText"
-            tools:text="@string/settings_label_bio"
+            android:text="@string/settings_label_bio"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/settings_bio" />
 

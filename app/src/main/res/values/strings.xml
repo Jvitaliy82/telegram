@@ -22,7 +22,6 @@
     <string name="settings_hint_input_surname">Input your surname</string>
     <string name="settings_toast_name_is_empty">name is empty!</string>
     <string name="toast_data_update">Data update</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="settings_hint_user_name">user name</string>
+    <string name="settings_hint_input_bio">bio</string>
 </resources>

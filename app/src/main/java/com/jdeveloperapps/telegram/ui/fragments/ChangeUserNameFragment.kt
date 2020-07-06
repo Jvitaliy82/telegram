@@ -1,36 +1,21 @@
 package com.jdeveloperapps.telegram.ui.fragments
 
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import com.jdeveloperapps.telegram.MainActivity
 import com.jdeveloperapps.telegram.R
 import com.jdeveloperapps.telegram.utilites.*
 import kotlinx.android.synthetic.main.fragment_chage_user_name.*
 import java.util.*
 
-class ChangeUserNameFragment : BaseFragment(R.layout.fragment_chage_user_name) {
+class ChangeUserNameFragment : BaseChangeFragment(R.layout.fragment_chage_user_name) {
 
     lateinit var mNewUserName: String
 
     override fun onResume() {
         super.onResume()
-        setHasOptionsMenu(true)
         settings_input_user_name.setText(USER.username)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        (activity as MainActivity).menuInflater.inflate(R.menu.settings_confirm_menu, menu)
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.settings_confirm_change -> change()
-        }
-        return true
-    }
-
-    private fun change() {
+    override fun change() {
         mNewUserName = settings_input_user_name.text.toString().toLowerCase(Locale.getDefault())
         if (mNewUserName.isEmpty()) {
             showToast("user name is empty")
@@ -48,7 +33,7 @@ class ChangeUserNameFragment : BaseFragment(R.layout.fragment_chage_user_name) {
     }
 
     private fun changeUserName() {
-        REF_DATABASE_ROOT.child(NODE_USERNAMES).child(mNewUserName).setValue(UID)
+        REF_DATABASE_ROOT.child(NODE_USERNAMES).child(mNewUserName).setValue(CURRENT_UID)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     updateCurentUserName()
@@ -57,7 +42,7 @@ class ChangeUserNameFragment : BaseFragment(R.layout.fragment_chage_user_name) {
     }
 
     private fun updateCurentUserName() {
-        REF_DATABASE_ROOT.child(NODE_USERS).child(UID).child(CHILD_USERNAME).setValue(mNewUserName)
+        REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID).child(CHILD_USERNAME).setValue(mNewUserName)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     deleteOldUserName()

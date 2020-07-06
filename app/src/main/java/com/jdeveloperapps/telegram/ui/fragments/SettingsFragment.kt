@@ -3,13 +3,11 @@ package com.jdeveloperapps.telegram.ui.fragments
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import com.jdeveloperapps.telegram.MainActivity
 import com.jdeveloperapps.telegram.R
 import com.jdeveloperapps.telegram.activities.RegisterActivity
-import com.jdeveloperapps.telegram.utilites.AUTH
-import com.jdeveloperapps.telegram.utilites.USER
-import com.jdeveloperapps.telegram.utilites.replaceActivity
-import com.jdeveloperapps.telegram.utilites.replaceFragment
+import com.jdeveloperapps.telegram.utilites.*
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
@@ -26,10 +24,20 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         settings_phone_number.text = USER.phone
         settings_username.text = USER.username
         settings_bio.text = USER.bio
-        settings_btn_change_username.setOnClickListener {
-            replaceFragment(ChangeUserNameFragment())
-        }
+        settings_btn_change_username.setOnClickListener {replaceFragment(ChangeUserNameFragment())}
+        settings_btn_change_bio.setOnClickListener {replaceFragment(ChangeBioFragment())}
+        settings_btn_change_photo.setOnClickListener { changePhotoUser() }
     }
+
+    private fun changePhotoUser() {
+        CropImage.activity()
+            .setAspectRatio(1, 1)
+            .setRequestedSize(600, 600)
+            .setCropShape(CropImageView.CropShape.OVAL)
+            .start(APP_ACTIVITY)
+    }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -40,7 +48,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         when (item.itemId){
             R.id.settings_menu_exit -> {
                 AUTH.signOut()
-                (activity as MainActivity).replaceActivity(RegisterActivity())
+                APP_ACTIVITY.replaceActivity(RegisterActivity())
             }
             R.id.settings_menu_change_name -> {
                 replaceFragment(ChangeNameFragment())
