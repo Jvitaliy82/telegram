@@ -14,6 +14,9 @@ class ChangeNameFragment : Fragment(R.layout.fragment_change_name) {
     override fun onResume() {
         super.onResume()
         setHasOptionsMenu(true)
+        val fullNameList = USER.fullname.split(" ")
+        settings_input_name.setText(fullNameList[0])
+        settings_input_surname.setText(fullNameList[1])
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
