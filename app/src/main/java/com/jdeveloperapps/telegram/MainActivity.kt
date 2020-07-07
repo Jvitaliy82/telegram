@@ -10,6 +10,9 @@ import com.jdeveloperapps.telegram.databinding.ActivityMainBinding
 import com.jdeveloperapps.telegram.ui.fragments.ChatsFragment
 import com.jdeveloperapps.telegram.ui.objects.AppDrawer
 import com.jdeveloperapps.telegram.utilites.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,7 +27,9 @@ class MainActivity : AppCompatActivity() {
         APP_ACTIVITY = this
         initFirebase()
         initUser{
-            initContacts()
+            CoroutineScope(Dispatchers.IO).launch {
+                initContacts()
+            }
             initFields()
             initFunc()
         }
