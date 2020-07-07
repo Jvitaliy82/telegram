@@ -25,13 +25,13 @@ fun AppCompatActivity.replaceFragment(fragment: Fragment, addStack: Boolean = tr
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .replace(
-                R.id.dataContainer,
+                R.id.data_container,
                 fragment
             ).commit()
     } else {
         supportFragmentManager.beginTransaction()
             .replace(
-                R.id.dataContainer,
+                R.id.data_container,
                 fragment
             ).commit()
     }
@@ -39,7 +39,7 @@ fun AppCompatActivity.replaceFragment(fragment: Fragment, addStack: Boolean = tr
 
 fun Fragment.replaceFragment(fragment: Fragment) {
     this.fragmentManager?.beginTransaction()
-        ?.replace(R.id.dataContainer, fragment)
+        ?.replace(R.id.data_container, fragment)
         ?.addToBackStack(null)
         ?.commit()
 }
