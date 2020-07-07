@@ -1,5 +1,7 @@
 package com.jdeveloperapps.telegram.ui.fragments
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -34,7 +36,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             .setAspectRatio(1, 1)
             .setRequestedSize(600, 600)
             .setCropShape(CropImageView.CropShape.OVAL)
-            .start(APP_ACTIVITY)
+            .start(APP_ACTIVITY, this)
     }
 
 
@@ -55,5 +57,33 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             }
         }
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
+            && resultCode == RESULT_OK && data != null) {
+            val uri = CropImage.getActivityResult(data).uri
+            val path = REF_STORAGE_ROOT.child(FOLDER_PROFILE_IMAGE).child(CURRENT_UID)
+            path.putFile(uri).addOnCompleteListener { tack1 ->
+                if (tack1.isSuccessful) {
+                    path.downloadUrl.addOnCompleteListener {tack2 ->
+                        if (tack2.isSuccessful) {
+                            val photoUrl = tack2.result.toString()
+                            REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID).child(
+                                CHILD_PHOTOURL).setValue(photoUrl).addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    showToast(getString(R.string.toast_data_update))
+                                    USER.photoUrl = photoUrl
+                                    settings_user_photo.downloadAndSetImage(photoUrl)
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    showToast(tack1.exception?.message.toString())
+                }
+            }
+        }
     }
 }
