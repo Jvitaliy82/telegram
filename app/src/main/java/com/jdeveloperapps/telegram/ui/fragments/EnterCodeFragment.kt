@@ -24,7 +24,7 @@ class EnterCodeFragment(val phoneNumber: String, val id: String) : Fragment(R.la
     private fun enterCode() {
         val code = register_input_code.text.toString()
         val credential = PhoneAuthProvider.getCredential(id, code)
-        AUTH.signInWithCredential(credential).addOnCompleteListener{
+        AUTH.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 val uid = AUTH.currentUser?.uid.toString()
                 val dataMap = mutableMapOf<String, Any>()
@@ -32,14 +32,16 @@ class EnterCodeFragment(val phoneNumber: String, val id: String) : Fragment(R.la
                 dataMap[CHILD_PHONE] = phoneNumber
                 dataMap[CHILD_USERNAME] = uid
 
-                REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dataMap).addOnCompleteListener {
-                    if(it.isSuccessful) {
-                        showToast("Welcome")
-                        (activity as RegisterActivity).replaceActivity(MainActivity())
-                    } else {
-                        showToast(it.exception?.message.toString())
+                REF_DATABASE_ROOT.child(NODE_PHONES).child(phoneNumber).setValue(uid)
+                    .addOnFailureListener { showToast(it.message.toString()) }
+                    .addOnSuccessListener {
+                        REF_DATABASE_ROOT.child(NODE_USERS).child(uid).updateChildren(dataMap)
+                            .addOnFailureListener { showToast(it.message.toString()) }
+                            .addOnSuccessListener {
+                                showToast("Welcome")
+                                (activity as RegisterActivity).replaceActivity(MainActivity())
+                            }
                     }
-                }
             } else {
                 showToast(it.exception.toString())
             }
