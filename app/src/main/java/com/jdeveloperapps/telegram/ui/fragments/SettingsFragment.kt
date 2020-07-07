@@ -29,6 +29,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         settings_btn_change_username.setOnClickListener {replaceFragment(ChangeUserNameFragment())}
         settings_btn_change_bio.setOnClickListener {replaceFragment(ChangeBioFragment())}
         settings_btn_change_photo.setOnClickListener { changePhotoUser() }
+        settings_user_photo.downloadAndSetImage(USER.photoUrl)
     }
 
     private fun changePhotoUser() {
@@ -65,25 +66,18 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             && resultCode == RESULT_OK && data != null) {
             val uri = CropImage.getActivityResult(data).uri
             val path = REF_STORAGE_ROOT.child(FOLDER_PROFILE_IMAGE).child(CURRENT_UID)
-            path.putFile(uri).addOnCompleteListener { tack1 ->
-                if (tack1.isSuccessful) {
-                    path.downloadUrl.addOnCompleteListener {tack2 ->
-                        if (tack2.isSuccessful) {
-                            val photoUrl = tack2.result.toString()
-                            REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID).child(
-                                CHILD_PHOTOURL).setValue(photoUrl).addOnCompleteListener {
-                                if (it.isSuccessful) {
-                                    showToast(getString(R.string.toast_data_update))
-                                    USER.photoUrl = photoUrl
-                                    settings_user_photo.downloadAndSetImage(photoUrl)
-                                }
-                            }
-                        }
+
+            putImageToStorage(uri, path) {
+                getUrlFromStorage(path) {
+                    putUrlToDatabase(it) {
+                        showToast(getString(R.string.toast_data_update))
+                        USER.photoUrl = it
+                        settings_user_photo.downloadAndSetImage(it)
                     }
-                } else {
-                    showToast(tack1.exception?.message.toString())
                 }
             }
         }
     }
+
+
 }
