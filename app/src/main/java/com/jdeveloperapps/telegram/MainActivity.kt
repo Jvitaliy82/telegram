@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.jdeveloperapps.telegram.activities.RegisterActivity
 import com.jdeveloperapps.telegram.databinding.ActivityMainBinding
-import com.jdeveloperapps.telegram.models.User
 import com.jdeveloperapps.telegram.ui.fragments.ChatsFragment
 import com.jdeveloperapps.telegram.ui.objects.AppDrawer
 import com.jdeveloperapps.telegram.utilites.*
@@ -21,15 +20,18 @@ class MainActivity : AppCompatActivity() {
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
         APP_ACTIVITY = this
-        initFields()
-        initFunc()
+        initFirebase()
+        initUser{
+            initFields()
+            initFunc()
+        }
+
     }
 
     private fun initFields() {
         mToolbar = mBinding.mainToolbar
         mAppDrawer = AppDrawer(this, toolbar = mToolbar)
-        initFirebase()
-        initUser()
+
     }
 
     private fun initFunc() {
@@ -42,12 +44,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initUser() {
-        REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID)
-            .addListenerForSingleValueEvent(AppValueEventListener{
-                USER = it.getValue(User::class.java) ?: User()
-            })
-    }
 
 
 
