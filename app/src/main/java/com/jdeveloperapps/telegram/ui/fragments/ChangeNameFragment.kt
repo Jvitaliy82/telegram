@@ -1,7 +1,9 @@
 package com.jdeveloperapps.telegram.ui.fragments
 
 import com.jdeveloperapps.telegram.R
-import com.jdeveloperapps.telegram.utilites.*
+import com.jdeveloperapps.telegram.database.USER
+import com.jdeveloperapps.telegram.database.setNameToDatabase
+import com.jdeveloperapps.telegram.utilites.showToast
 import kotlinx.android.synthetic.main.fragment_change_name.*
 
 class ChangeNameFragment : BaseChangeFragment(R.layout.fragment_change_name) {
@@ -29,15 +31,7 @@ class ChangeNameFragment : BaseChangeFragment(R.layout.fragment_change_name) {
             showToast(getString(R.string.settings_toast_name_is_empty))
         } else {
             val fullName = "$name $surname"
-            REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID).child(CHILD_FULLNAME).setValue(fullName)
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        showToast(getString(R.string.toast_data_update))
-                        USER.fullname = fullName
-                        APP_ACTIVITY.mAppDrawer.updateHeader()
-                        fragmentManager?.popBackStack()
-                    }
-                }
+            setNameToDatabase(fullName)
         }
     }
 }

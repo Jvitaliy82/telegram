@@ -5,9 +5,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import com.jdeveloperapps.telegram.activities.RegisterActivity
+import com.jdeveloperapps.telegram.database.AUTH
+import com.jdeveloperapps.telegram.database.initFirebase
+import com.jdeveloperapps.telegram.database.initUser
 import com.jdeveloperapps.telegram.databinding.ActivityMainBinding
-import com.jdeveloperapps.telegram.ui.fragments.ChatsFragment
+import com.jdeveloperapps.telegram.ui.fragments.MainFragment
+import com.jdeveloperapps.telegram.ui.fragments.register.EnterPhoneNumberFragment
 import com.jdeveloperapps.telegram.ui.objects.AppDrawer
 import com.jdeveloperapps.telegram.utilites.*
 import kotlinx.coroutines.CoroutineScope
@@ -26,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(mBinding.root)
         APP_ACTIVITY = this
         initFirebase()
-        initUser{
+        initUser {
             CoroutineScope(Dispatchers.IO).launch {
                 initContacts()
             }
@@ -36,8 +39,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-
     private fun initFields() {
         mToolbar = mBinding.mainToolbar
         mAppDrawer = AppDrawer()
@@ -45,12 +46,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initFunc() {
+        setSupportActionBar(mToolbar)
         if (AUTH.currentUser != null) {
-            setSupportActionBar(mToolbar)
             mAppDrawer.create()
-            replaceFragment(ChatsFragment(), false)
+            replaceFragment(MainFragment(), false)
         } else {
-            replaceActivity(RegisterActivity())
+            replaceFragment(EnterPhoneNumberFragment(), false)
         }
     }
 

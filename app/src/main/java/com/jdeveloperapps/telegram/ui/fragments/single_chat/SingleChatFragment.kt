@@ -4,10 +4,14 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DatabaseReference
 import com.jdeveloperapps.telegram.R
+import com.jdeveloperapps.telegram.database.*
 import com.jdeveloperapps.telegram.models.CommonModel
 import com.jdeveloperapps.telegram.models.User
 import com.jdeveloperapps.telegram.ui.fragments.BaseFragment
-import com.jdeveloperapps.telegram.utilites.*
+import com.jdeveloperapps.telegram.utilites.APP_ACTIVITY
+import com.jdeveloperapps.telegram.utilites.AppValueEventListener
+import com.jdeveloperapps.telegram.utilites.downloadAndSetImage
+import com.jdeveloperapps.telegram.utilites.showToast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_single_chat.*
@@ -34,7 +38,9 @@ class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layo
     private fun initRecyclerView() {
         mRecyclerView = chat_recycler_view
         mAdapter = SingleChatAdapter()
-        mRefMessages = REF_DATABASE_ROOT.child(NODE_MESSAGES)
+        mRefMessages = REF_DATABASE_ROOT.child(
+            NODE_MESSAGES
+        )
             .child(CURRENT_UID)
             .child(contact.id)
         mRecyclerView.adapter = mAdapter
@@ -53,14 +59,20 @@ class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layo
             mReceivingUser = it.getUserModel()
             initInfoToolbar()
         }
-        mRefUser = REF_DATABASE_ROOT.child(NODE_USERS).child(contact.id)
+        mRefUser = REF_DATABASE_ROOT.child(
+            NODE_USERS
+        ).child(contact.id)
         mRefUser.addValueEventListener(mListenerInfoToolbar)
         chat_btn_send_message.setOnClickListener {
             val message = chat_input_message.text.toString()
             if (message.isEmpty()) {
                 showToast("input message")
             } else {
-                sendMessage(message, contact.id, TYPE_TEXT) {
+                sendMessage(
+                    message,
+                    contact.id,
+                    TYPE_TEXT
+                ) {
                     chat_input_message.setText("")
                 }
             }

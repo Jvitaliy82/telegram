@@ -6,10 +6,10 @@ import android.view.View
 import android.widget.ImageView
 import androidx.drawerlayout.widget.DrawerLayout
 import com.jdeveloperapps.telegram.R
+import com.jdeveloperapps.telegram.database.USER
 import com.jdeveloperapps.telegram.ui.fragments.ContactsFragment
 import com.jdeveloperapps.telegram.ui.fragments.SettingsFragment
 import com.jdeveloperapps.telegram.utilites.APP_ACTIVITY
-import com.jdeveloperapps.telegram.utilites.USER
 import com.jdeveloperapps.telegram.utilites.downloadAndSetImage
 import com.jdeveloperapps.telegram.utilites.replaceFragment
 import com.mikepenz.materialdrawer.AccountHeader
@@ -135,8 +135,8 @@ class AppDrawer() {
 
     private fun clickToItem(position: Int) {
         when(position) {
-            7 -> APP_ACTIVITY.replaceFragment(SettingsFragment())
-            4 -> APP_ACTIVITY.replaceFragment(ContactsFragment())
+            7 -> replaceFragment(SettingsFragment())
+            4 -> replaceFragment(ContactsFragment())
         }
     }
 

@@ -7,8 +7,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.jdeveloperapps.telegram.R
+import com.jdeveloperapps.telegram.database.CURRENT_UID
 import com.jdeveloperapps.telegram.models.CommonModel
-import com.jdeveloperapps.telegram.utilites.CURRENT_UID
 import com.jdeveloperapps.telegram.utilites.asTime
 import kotlinx.android.synthetic.main.message_item.view.*
 

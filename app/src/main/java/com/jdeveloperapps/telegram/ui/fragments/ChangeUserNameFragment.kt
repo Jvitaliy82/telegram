@@ -1,7 +1,9 @@
 package com.jdeveloperapps.telegram.ui.fragments
 
 import com.jdeveloperapps.telegram.R
-import com.jdeveloperapps.telegram.utilites.*
+import com.jdeveloperapps.telegram.database.*
+import com.jdeveloperapps.telegram.utilites.AppValueEventListener
+import com.jdeveloperapps.telegram.utilites.showToast
 import kotlinx.android.synthetic.main.fragment_chage_user_name.*
 import java.util.*
 
@@ -20,7 +22,9 @@ class ChangeUserNameFragment : BaseChangeFragment(R.layout.fragment_chage_user_n
         if (mNewUserName.isEmpty()) {
             showToast("user name is empty")
         } else {
-            REF_DATABASE_ROOT.child(NODE_USERNAMES)
+            REF_DATABASE_ROOT.child(
+                NODE_USERNAMES
+            )
                 .addListenerForSingleValueEvent(AppValueEventListener{
                     if (it.hasChild(mNewUserName)) {
                         showToast("This user is exist")
@@ -33,36 +37,15 @@ class ChangeUserNameFragment : BaseChangeFragment(R.layout.fragment_chage_user_n
     }
 
     private fun changeUserName() {
-        REF_DATABASE_ROOT.child(NODE_USERNAMES).child(mNewUserName).setValue(CURRENT_UID)
+        REF_DATABASE_ROOT.child(
+            NODE_USERNAMES
+        ).child(mNewUserName).setValue(CURRENT_UID)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    updateCurentUserName()
+                    updateCurrentUserName(mNewUserName)
                 }
             }
     }
 
-    private fun updateCurentUserName() {
-        REF_DATABASE_ROOT.child(NODE_USERS).child(CURRENT_UID).child(CHILD_USERNAME).setValue(mNewUserName)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    deleteOldUserName()
-                } else {
-                    showToast(it.exception?.message.toString())
-                }
-            }
 
-    }
-
-    private fun deleteOldUserName() {
-        REF_DATABASE_ROOT.child(NODE_USERNAMES).child(USER.username).removeValue()
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    showToast(getString(R.string.toast_data_update))
-                    USER.username = mNewUserName
-                    fragmentManager?.popBackStack()
-                } else {
-                    showToast(it.exception?.message.toString())
-                }
-            }
-    }
 }
