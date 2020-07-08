@@ -10,6 +10,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DatabaseReference
 import com.jdeveloperapps.telegram.R
 import com.jdeveloperapps.telegram.models.CommonModel
+import com.jdeveloperapps.telegram.ui.fragments.single_chat.SingleChatFragment
 import com.jdeveloperapps.telegram.utilites.*
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.contact_item.view.*
@@ -61,7 +62,11 @@ class ContactsFragment : BaseFragment(R.layout.fragment_contacts) {
                     }
                     holder.status.text = contact.status
                     holder.photo.downloadAndSetImage(contact.photoUrl)
-                    holder.itemView.setOnClickListener { replaceFragment(SingleChatFragment(model)) }
+                    holder.itemView.setOnClickListener { replaceFragment(
+                        SingleChatFragment(
+                            model
+                        )
+                    ) }
                 }
 
                 mRefUsers.addValueEventListener(mRefUsersListener)
