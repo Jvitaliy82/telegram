@@ -27,10 +27,10 @@
         android:padding="@dimen/appPadding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/chat_send_btn"/>
+        app:layout_constraintEnd_toStartOf="@id/chat_btn_send_message"/>
 
     <ImageView
-        android:id="@+id/chat_send_btn"
+        android:id="@+id/chat_btn_send_message"
         android:layout_width="50dp"
         android:layout_height="0dp"
         android:src="@drawable/ic_send"

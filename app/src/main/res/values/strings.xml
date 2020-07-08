@@ -25,4 +25,5 @@
     <string name="settings_hint_user_name">user name</string>
     <string name="settings_hint_input_bio">bio</string>
     <string name="activity_title_contacts">Contacts</string>
+    <string name="chat_fragment_title">Chats</string>
 </resources>
