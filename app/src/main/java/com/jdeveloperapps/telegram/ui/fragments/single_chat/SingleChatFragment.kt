@@ -2,16 +2,14 @@ package com.jdeveloperapps.telegram.ui.fragments.single_chat
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DatabaseReference
 import com.jdeveloperapps.telegram.R
 import com.jdeveloperapps.telegram.database.*
 import com.jdeveloperapps.telegram.models.CommonModel
 import com.jdeveloperapps.telegram.models.User
 import com.jdeveloperapps.telegram.ui.fragments.BaseFragment
-import com.jdeveloperapps.telegram.utilites.APP_ACTIVITY
-import com.jdeveloperapps.telegram.utilites.AppValueEventListener
-import com.jdeveloperapps.telegram.utilites.downloadAndSetImage
-import com.jdeveloperapps.telegram.utilites.showToast
+import com.jdeveloperapps.telegram.utilites.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_single_chat.*
@@ -26,8 +24,8 @@ class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layo
     private lateinit var mRefMessages: DatabaseReference
     private lateinit var mAdapter: SingleChatAdapter
     private lateinit var mRecyclerView: RecyclerView
-    private lateinit var mMessagesListener: AppValueEventListener
-    private var mListMessages = emptyList<CommonModel>()
+    private lateinit var mMessagesListener: ChildEventListener
+    private var mListMessages = mutableListOf<CommonModel>()
 
     override fun onResume() {
         super.onResume()
@@ -44,12 +42,12 @@ class SingleChatFragment(private val contact: CommonModel) : BaseFragment(R.layo
             .child(CURRENT_UID)
             .child(contact.id)
         mRecyclerView.adapter = mAdapter
-        mMessagesListener = AppValueEventListener {dataSnapshot ->
-            mListMessages = dataSnapshot.children.map { it.getCommonModel() }
-            mAdapter.setList(mListMessages)
-            mRecyclerView.smoothScrollToPosition(mListMessages.size)
+        mMessagesListener = AppChildEventListener{
+            mAdapter.addItem(it.getCommonModel())
+            mRecyclerView.smoothScrollToPosition(mAdapter.itemCount)
         }
-        mRefMessages.addValueEventListener(mMessagesListener)
+
+        mRefMessages.addChildEventListener(mMessagesListener)
     }
 
     private fun initToolbar() {

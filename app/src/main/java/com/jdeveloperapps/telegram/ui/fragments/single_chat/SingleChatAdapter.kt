@@ -5,16 +5,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jdeveloperapps.telegram.R
 import com.jdeveloperapps.telegram.database.CURRENT_UID
 import com.jdeveloperapps.telegram.models.CommonModel
+import com.jdeveloperapps.telegram.utilites.DiffUtilCallback
 import com.jdeveloperapps.telegram.utilites.asTime
 import kotlinx.android.synthetic.main.message_item.view.*
 
 class SingleChatAdapter: RecyclerView.Adapter<SingleChatAdapter.SingleChatHolder>() {
 
     private var mListMessagesCache = emptyList<CommonModel>()
+    private lateinit var mDiffResult: DiffUtil.DiffResult
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleChatHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.message_item, parent, false)
@@ -40,8 +43,18 @@ class SingleChatAdapter: RecyclerView.Adapter<SingleChatAdapter.SingleChatHolder
     }
 
     fun setList(list: List<CommonModel>) {
-        mListMessagesCache = list
-        notifyDataSetChanged()
+
+
+//        notifyDataSetChanged()
+    }
+
+    fun addItem(item: CommonModel) {
+        val newList = mutableListOf<CommonModel>()
+        newList.addAll(mListMessagesCache)
+        newList.add(item)
+        mDiffResult = DiffUtil.calculateDiff(DiffUtilCallback(mListMessagesCache, newList))
+        mDiffResult.dispatchUpdatesTo(this)
+        mListMessagesCache = newList
     }
 
     class SingleChatHolder(view: View): RecyclerView.ViewHolder(view) {
