@@ -134,18 +134,19 @@ fun DataSnapshot.getUserModel(): User = this.getValue(User::class.java) ?: User(
 fun sendMessage(message: String, receivingUserId: String, typeText: String, function: () -> Unit) {
     val refDialogUser = "$NODE_MESSAGES/$CURRENT_UID/$receivingUserId"
     val refDialogReceivingUser = "$NODE_MESSAGES/$receivingUserId$CURRENT_UID"
-    val mesageKey = REF_DATABASE_ROOT.child(refDialogUser).push().key
+    val messageKey = REF_DATABASE_ROOT.child(refDialogUser).push().key
 
     val mapMessage = hashMapOf<String, Any>()
     mapMessage[CHILD_FROM] =
         CURRENT_UID
     mapMessage[CHILD_TYPE] = typeText
     mapMessage[CHILD_TEXT] = message
+    mapMessage[CHILD_ID] = messageKey.toString()
     mapMessage[CHILD_TIMESTAMP] = ServerValue.TIMESTAMP
 
     val mapDialog = hashMapOf<String, Any>()
-    mapDialog["$refDialogUser/$mesageKey"] = mapMessage
-    mapDialog["$refDialogReceivingUser/$mesageKey"] = mapMessage
+    mapDialog["$refDialogUser/$messageKey"] = mapMessage
+    mapDialog["$refDialogReceivingUser/$messageKey"] = mapMessage
 
     REF_DATABASE_ROOT.updateChildren(mapDialog)
         .addOnSuccessListener { function() }
