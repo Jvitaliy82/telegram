@@ -59,13 +59,13 @@ class SingleChatAdapter: RecyclerView.Adapter<SingleChatAdapter.SingleChatHolder
         if (mListMessagesCache[position].from == CURRENT_UID) {
             holder.blockUserImageMessage.visibility = View.VISIBLE
             holder.blockReceivedImageMessage.visibility = View.GONE
-            holder.chatUserImage.downloadAndSetImage(mListMessagesCache[position].imageUrl)
+            holder.chatUserImage.downloadAndSetImage(mListMessagesCache[position].fileUrl)
             holder.chatUserImageMessageTime.text = mListMessagesCache[position]
                 .timeStamp.toString().asTime()
         } else {
             holder.blockUserImageMessage.visibility = View.GONE
             holder.blockReceivedImageMessage.visibility = View.VISIBLE
-            holder.chatReceivedImage.downloadAndSetImage(mListMessagesCache[position].imageUrl)
+            holder.chatReceivedImage.downloadAndSetImage(mListMessagesCache[position].fileUrl)
             holder.chatReceivedImageMessageTime.text = mListMessagesCache[position]
                 .timeStamp.toString().asTime()
         }
