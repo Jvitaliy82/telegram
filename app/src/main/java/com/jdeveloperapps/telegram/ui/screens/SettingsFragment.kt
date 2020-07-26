@@ -1,4 +1,4 @@
-package com.jdeveloperapps.telegram.ui.fragments
+package com.jdeveloperapps.telegram.ui.screens
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent

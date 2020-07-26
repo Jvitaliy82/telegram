@@ -1,4 +1,4 @@
-package com.jdeveloperapps.telegram.ui.fragments
+package com.jdeveloperapps.telegram.ui.screens
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,7 @@ import com.google.firebase.database.DatabaseReference
 import com.jdeveloperapps.telegram.R
 import com.jdeveloperapps.telegram.database.*
 import com.jdeveloperapps.telegram.models.CommonModel
-import com.jdeveloperapps.telegram.ui.fragments.single_chat.SingleChatFragment
+import com.jdeveloperapps.telegram.ui.screens.single_chat.SingleChatFragment
 import com.jdeveloperapps.telegram.utilites.APP_ACTIVITY
 import com.jdeveloperapps.telegram.utilites.AppValueEventListener
 import com.jdeveloperapps.telegram.utilites.downloadAndSetImage

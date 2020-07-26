@@ -13,6 +13,7 @@ import com.jdeveloperapps.telegram.models.User
 import com.jdeveloperapps.telegram.utilites.APP_ACTIVITY
 import com.jdeveloperapps.telegram.utilites.AppValueEventListener
 import com.jdeveloperapps.telegram.utilites.showToast
+import java.io.File
 import java.util.*
 
 fun initFirebase() {
@@ -243,4 +244,11 @@ fun uploadFileToStorage(uri: Uri, messageKey: String, receivedID: String, typeMe
         }
     }
     showToast("Record OK")
+}
+
+fun getFileFromStorage(mFile: File, fileUrl: String, function: () -> Unit) {
+    val path = REF_STORAGE_ROOT.storage.getReferenceFromUrl(fileUrl)
+    path.getFile(mFile)
+        .addOnSuccessListener { function }
+        .addOnFailureListener { showToast(it.message.toString())}
 }

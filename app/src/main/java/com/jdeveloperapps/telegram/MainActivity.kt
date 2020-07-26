@@ -9,9 +9,9 @@ import com.jdeveloperapps.telegram.database.AUTH
 import com.jdeveloperapps.telegram.database.initFirebase
 import com.jdeveloperapps.telegram.database.initUser
 import com.jdeveloperapps.telegram.databinding.ActivityMainBinding
-import com.jdeveloperapps.telegram.ui.fragments.MainFragment
-import com.jdeveloperapps.telegram.ui.fragments.register.EnterPhoneNumberFragment
 import com.jdeveloperapps.telegram.ui.objects.AppDrawer
+import com.jdeveloperapps.telegram.ui.screens.MainFragment
+import com.jdeveloperapps.telegram.ui.screens.register.EnterPhoneNumberFragment
 import com.jdeveloperapps.telegram.utilites.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

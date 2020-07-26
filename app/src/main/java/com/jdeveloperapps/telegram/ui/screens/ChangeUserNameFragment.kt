@@ -1,4 +1,4 @@
-package com.jdeveloperapps.telegram.ui.fragments
+package com.jdeveloperapps.telegram.ui.screens
 
 import com.jdeveloperapps.telegram.R
 import com.jdeveloperapps.telegram.database.*

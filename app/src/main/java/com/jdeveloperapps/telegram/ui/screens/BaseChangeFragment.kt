@@ -1,4 +1,4 @@
-package com.jdeveloperapps.telegram.ui.fragments
+package com.jdeveloperapps.telegram.ui.screens
 
 import android.view.Menu
 import android.view.MenuInflater

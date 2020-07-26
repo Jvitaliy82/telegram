@@ -1,4 +1,4 @@
-package com.jdeveloperapps.telegram.ui.fragments.register
+package com.jdeveloperapps.telegram.ui.screens.register
 
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.PhoneAuthProvider

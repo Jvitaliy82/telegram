@@ -1,4 +1,4 @@
-package com.jdeveloperapps.telegram.ui.fragments.message_recycler_view.views
+package com.jdeveloperapps.telegram.ui.message_recycler_view.views
 
 import com.jdeveloperapps.telegram.models.CommonModel
 import com.jdeveloperapps.telegram.utilites.TYPE_MESSAGE_IMAGE
