@@ -10,7 +10,7 @@ import com.jdeveloperapps.telegram.database.initFirebase
 import com.jdeveloperapps.telegram.database.initUser
 import com.jdeveloperapps.telegram.databinding.ActivityMainBinding
 import com.jdeveloperapps.telegram.ui.objects.AppDrawer
-import com.jdeveloperapps.telegram.ui.screens.MainFragment
+import com.jdeveloperapps.telegram.ui.screens.main_list.ListFragment
 import com.jdeveloperapps.telegram.ui.screens.register.EnterPhoneNumberFragment
 import com.jdeveloperapps.telegram.utilites.*
 import kotlinx.coroutines.CoroutineScope
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(mToolbar)
         if (AUTH.currentUser != null) {
             mAppDrawer.create()
-            replaceFragment(MainFragment(), false)
+            replaceFragment(ListFragment(), false)
         } else {
             replaceFragment(EnterPhoneNumberFragment(), false)
         }
